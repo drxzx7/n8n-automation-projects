@@ -1,0 +1,120 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "43beb3ec-74f5-4609-a38c-f4b8a4c07c08",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appBnBE4cRCz5FtAX",
+          "mode": "id"
+        },
+        "table": {
+          "__rl": true,
+          "mode": "id",
+          "value": "tblNxZBlDwdRCnfsa"
+        },
+        "filterByFormula": "{Status} != \"Done\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8271ab66-cd36-4a5b-9cc8-82405b8a3dda",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "405Na7BxJJHcN4lq",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C0B8XPX29A8",
+          "mode": "id"
+        },
+        "text": "=*📋 Daily Task Reminder*  *Task:* {{$json[\"Task Name\"]}} *Assignee:* {{$json[\"Assignee\"]}} *Status:* {{$json[\"Status\"]}} *Due Date:* {{$json[\"Due Date\"]}}  ⏰ Please update this task status today!",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        416,
+        0
+      ],
+      "id": "cfe169e7-87d8-4518-a4ea-9f6136aea615",
+      "name": "Send a message",
+      "webhookId": "280472a9-f695-4c38-b7eb-31f9713eb304",
+      "credentials": {
+        "slackApi": {
+          "id": "ux0Aw2YxLzNs4Psp",
+          "name": "Slack account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "597cfbc7-7f47-457d-808a-4f9d6fc585b6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c16deecc1c39d84cb6e09b045813c9e7fcf6a9271f38b6bc4c025d9068d2cc1f"
+  },
+  "nodeGroups": [],
+  "id": "UcOJ5Cp3EM3PScWC",
+  "tags": []
+}
